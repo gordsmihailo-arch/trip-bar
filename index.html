@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
+  <title>Сборы в дорогу</title>
+  
+  <!-- PWA & Mobile Meta Tags -->
+  <meta name="theme-color" content="#FDFBF7" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Phosphor Icons -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            cream: {
+              50: '#FDFBF7',
+              100: '#F7F3EB',
+              200: '#EFE9DC',
+              300: '#E3DAC7',
+            },
+            slate: {
+              650: '#415167',
+              750: '#2E3A4B',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-cream: #FDFBF7;
+      --card-bg: #FFFFFF;
+      --text-main: #334155;
+      --text-muted: #788596;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    input, textarea {
+      user-select: auto;
+    }
+
+    /* Кастомный мягкий скроллбар */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F3EB;
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D8D0C1;
+      border-radius: 8px;
+    }
+
+    /* Плавный прогресс-бар */
+    .progress-fill {
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+    }
+
+    /* Анимация чекбокса */
+    .custom-checkbox {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .custom-checkbox svg {
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease;
+    }
+
+    /* Плавное зачеркивание текста */
+    .item-title-text {
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    /* Анимации появления */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-slide {
+      animation: fadeSlideUp 0.22s ease-out forwards;
+    }
+
+    /* Пастельные темы для поездок */
+    .theme-sage {
+      --accent-bg: #E6F0EC;
+      --accent-soft: #F2F7F5;
+      --accent-border: #C5DDD3;
+      --accent-solid: #7BA696;
+      --accent-dark: #4B7364;
+      --accent-text: #3A5E51;
+    }
+    .theme-rose {
+      --accent-bg: #F6E8EA;
+      --accent-soft: #FBF3F4;
+      --accent-border: #E8C8CD;
+      --accent-solid: #C98A94;
+      --accent-dark: #9B5B66;
+      --accent-text: #7D444E;
+    }
+    .theme-lavender {
+      --accent-bg: #ECEAF6;
+      --accent-soft: #F5F4FB;
+      --accent-border: #D3CEF0;
+      --accent-solid: #968BC4;
+      --accent-dark: #685C99;
+      --accent-text: #534780;
+    }
+    .theme-peach {
+      --accent-bg: #F9EBE4;
+      --accent-soft: #FCF5F1;
+      --accent-border: #EED0C0;
+      --accent-solid: #D99B7E;
+      --accent-dark: #AA6B4E;
+      --accent-text: #8C5238;
+    }
+    .theme-sky {
+      --accent-bg: #E5EFF5;
+      --accent-soft: #F2F7FA;
+      --accent-border: #C3DCEB;
+      --accent-solid: #7CA7C4;
+      --accent-dark: #4D7896;
+      --accent-text: #3C617A;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#FDFBF7] text-slate-800">
+
+  <!-- МОБИЛЬНЫЙ КОНТЕЙНЕР (на десктопе центрируется как телефон, на смартфоне 100% ширина) -->
+  <div id="appShell" class="w-full max-w-md mx-auto min-h-screen flex flex-col relative pb-32">
+
+    <!-- ВЕРХНЯЯ ШАПКА ПРИЛОЖЕНИЯ -->
+    <header class="sticky top-0 z-30 bg-[#FDFBF7]/95 backdrop-blur-md border-b border-cream-200/80 px-4 pt-3 pb-2.5 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-[#E6F0EC] border border-[#C5DDD3] flex items-center justify-center text-[#4B7364]">
+          <i class="ph-duotone ph-suitcase-rolling text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-base font-bold tracking-tight text-slate-800 leading-none">Сборы в дорогу</h1>
+          <p id="headerSubtitle" class="text-[11px] text-slate-500 mt-0.5">Органайзер вещей</p>
+        </div>
+      </div>
+
+      <!-- Быстрый выбор активной поездки прямо из шапки -->
+      <div id="headerQuickActions" class="flex items-center gap-1.5">
+        <button
+          onclick="openTripPickerSheet()"
+          class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-cream-100 hover:bg-cream-200/80 border border-cream-200 text-xs font-medium text-slate-700 transition-colors"
+          title="Сменить поездку"
+        >
+          <span id="headerCurrentEmoji">📸</span>
+          <span id="headerCurrentTripName" class="max-w-[110px] truncate">Выходные</span>
+          <i class="ph ph-caret-down text-[10px] text-slate-400"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ (3 ВКЛАДКИ) -->
+    <main class="flex-1 px-4 pt-3 space-y-4">
+
+      <!-- ВКЛАДКА 1: ЧЕК-ЛИСТ АКТИВНОЙ ПОЕЗДКИ -->
+      <section id="tabChecklistView" class="space-y-4 animate-fade-slide">
+        <!-- Рендерится через JS (карточка прогресса, фильтры, список вещей) -->
+      </section>
+
+      <!-- ВКЛАДКА 2: ВСЕ ПОЕЗДКИ -->
+      <section id="tabTripsView" class="hidden space-y-4 animate-fade-slide">
+        <div class="flex items-center justify-between pt-1 pb-1">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Мои поездки</h2>
+            <p class="text-xs text-slate-500">Переключайтесь или создавайте новые</p>
+          </div>
+          <button
+            onclick="openTripModal()"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 active:scale-95 text-white text-xs font-semibold shadow-xs transition-all"
+          >
+            <i class="ph-bold ph-plus text-xs"></i>
+            <span>Новая</span>
+          </button>
+        </div>
+
+        <div id="tripsListVerticalContainer" class="space-y-3">
+          <!-- Рендерится через JS -->
+        </div>
+      </section>
+
+      <!-- ВКЛАДКА 3: ИНСТРУМЕНТЫ И ЭКСПОРТ -->
+      <section id="tabToolsView" class="hidden space-y-4 animate-fade-slide">
+        <div class="pt-1 pb-1">
+          <h2 class="text-lg font-bold text-slate-800">Инструменты</h2>
+          <p class="text-xs text-slate-500">Экспорт, шаблоны и сохранение данных</p>
+        </div>
+
+        <!-- Карточка: Экспорт списка в Telegram / Заметки -->
+        <div class="p-4 rounded-2xl bg-white border border-cream-200 space-y-3 shadow-2xs">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-[#E5EFF5] text-[#3C617A] flex items-center justify-center text-lg">
+              <i class="ph-duotone ph-paper-plane-tilt"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-slate-800">Отправить в Telegram</h3>
+              <p class="text-xs text-slate-500">Красивый текстовый список для попутчиков</p>
+            </div>
+          </div>
+          <button
+            onclick="copyTelegramFormattedList()"
+            class="w-full py-2.5 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-[0.99] text-white text-xs font-medium flex items-center justify-center gap-2 transition-all shadow-xs"
+          >
+            <i class="ph-bold ph-copy"></i>
+            <span>Скопировать список текущей поездки</span>
+          </button>
+        </div>
+
+        <!-- Карточка: Быстрые шаблоны вещей -->
+        <div class="p-4 rounded-2xl bg-white border border-cream-200 space-y-3 shadow-2xs">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-[#F9EBE4] text-[#8C5238] flex items-center justify-center text-lg">
+              <i class="ph-duotone ph-sparkle"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-slate-800">Добавить готовый набор</h3>
+              <p class="text-xs text-slate-500">Добавить вещи в текущую поездку в 1 клик</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button
+              onclick="addTemplateBatchToCurrentTrip('beach')"
+              class="p-2.5 rounded-xl border border-cream-200 bg-cream-50/60 hover:bg-cream-100 text-left transition-colors"
+            >
+              <div class="text-base mb-1">🏖️</div>
+              <div class="text-xs font-semibold text-slate-800">Пляжный отдых</div>
+              <div class="text-[10px] text-slate-500">+6 вещей (крем, плавки...)</div>
+            </button>
+            <button
+              onclick="addTemplateBatchToCurrentTrip('mountains')"
+              class="p-2.5 rounded-xl border border-cream-200 bg-cream-50/60 hover:bg-cream-100 text-left transition-colors"
+            >
+              <div class="text-base mb-1">⛰️</div>
+              <div class="text-xs font-semibold text-slate-800">Поход и горы</div>
+              <div class="text-[10px] text-slate-500">+6 вещей (термос, дождевик...)</div>
+            </button>
+            <button
+              onclick="addTemplateBatchToCurrentTrip('work')"
+              class="p-2.5 rounded-xl border border-cream-200 bg-cream-50/60 hover:bg-cream-100 text-left transition-colors"
+            >
+              <div class="text-base mb-1">💼</div>
+              <div class="text-xs font-semibold text-slate-800">Командировка</div>
+              <div class="text-[10px] text-slate-500">+5 вещей (ноутбук, зарядки...)</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Карточка: Бэкап и перенос данных -->
+        <div class="p-4 rounded-2xl bg-white border border-cream-200 space-y-3 shadow-2xs">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-[#ECEAF6] text-[#534780] flex items-center justify-center text-lg">
+              <i class="ph-duotone ph-floppy-disk"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-slate-800">Резервная копия</h3>
+              <p class="text-xs text-slate-500">Сохраните файл или перенесите на другой телефон</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              onclick="exportBackupJson()"
+              class="flex-1 py-2 px-3 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-700 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors border border-cream-200"
+            >
+              <i class="ph ph-download-simple"></i>
+              <span>Скачать .json</span>
+            </button>
+            <label
+              class="flex-1 py-2 px-3 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-700 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors border border-cream-200 cursor-pointer"
+            >
+              <i class="ph ph-upload-simple"></i>
+              <span>Загрузить</span>
+              <input type="file" accept=".json" onchange="importBackupJson(event)" class="sr-only" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Карточка: Установка на Vivo / Android -->
+        <div class="p-4 rounded-2xl bg-white border border-cream-200 space-y-2 shadow-2xs">
+          <div class="flex items-center gap-2 text-xs font-semibold text-slate-800">
+            <i class="ph-duotone ph-device-mobile text-base text-emerald-600"></i>
+            <span>Как запускать в 1 клик с экрана телефона:</span>
+          </div>
+          <ol class="text-xs text-slate-600 space-y-1.5 pl-4 list-decimal leading-relaxed">
+            <li>В браузере (Chrome или Vivo) нажмите <strong>три точки (⋮)</strong> в верхнем углу.</li>
+            <li>Выберите <strong>«Добавить на главный экран»</strong> (или «Установить приложение»).</li>
+            <li>Иконка появится рядом с обычными приложениями и будет работать без рамок браузера и без интернета.</li>
+          </ol>
+        </div>
+
+        <!-- Кнопка сброса к демо-данным -->
+        <div class="pt-2 text-center">
+          <button
+            onclick="openResetDemoModal()"
+            class="text-xs text-slate-400 hover:text-slate-600 inline-flex items-center gap-1 transition-colors"
+          >
+            <i class="ph ph-arrow-counter-clockwise"></i>
+            <span>Восстановить исходные демо-поездки</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ЕДИНЫЙ НИЖНИЙ БЛОК УПРАВЛЕНИЯ (БЫСТРЫЙ ВВОД + ПЛАВАЮЩИЙ ТАБ-БАР) -->
+    <div
+      id="bottomControlsWrapper"
+      class="fixed bottom-0 left-0 right-0 z-40 pointer-events-none px-4 pb-3"
+      style="padding-bottom: max(12px, env(safe-area-inset-bottom));"
+    >
+      <div class="max-w-md mx-auto flex flex-col gap-2.5 pointer-events-auto">
+        <!-- СТРОКА БЫСТРОГО ВВОДА ВЕЩИ (ТОЛЬКО ВО ВКЛАДКЕ ЧЕК-ЛИСТ) -->
+        <div
+          id="quickAddBarContainer"
+          class="w-full transition-all duration-200"
+        >
+          <form
+            id="quickAddForm"
+            onsubmit="handleQuickAddSubmit(event)"
+            class="bg-white/95 backdrop-blur-xl border border-cream-300 rounded-2xl p-1.5 shadow-lg shadow-slate-900/5 flex items-center gap-1.5"
+          >
+            <input
+              id="quickAddInput"
+              type="text"
+              required
+              maxlength="80"
+              placeholder="Что взять с собой? (напр., Зарядка)"
+              onfocus="handleInputFocus()"
+              onblur="handleInputBlur()"
+              class="flex-1 px-3 py-2 bg-cream-50/70 border-0 rounded-xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-300"
+            />
+
+            <select
+              id="quickAddCategory"
+              class="h-[36px] px-2 rounded-xl bg-cream-100 border border-cream-200 text-xs text-slate-700 focus:outline-none shrink-0"
+            >
+              <!-- Заполняется в JS -->
+            </select>
+
+            <button
+              type="submit"
+              id="quickAddBtn"
+              class="w-9 h-9 rounded-xl bg-slate-800 active:scale-95 text-white flex items-center justify-center shrink-0 transition-transform shadow-xs"
+              title="Добавить"
+            >
+              <i class="ph-bold ph-plus text-sm"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- ПЛАВАЮЩИЙ НИЖНИЙ ТАБ-БАР (TELEGRAM / IOS STYLE DOCK) -->
+        <nav
+          id="bottomNavDock"
+          class="w-full bg-white/95 backdrop-blur-xl border border-cream-200/90 rounded-2xl shadow-lg shadow-slate-900/5 p-1.5 flex items-center justify-around transition-all duration-300"
+        >
+          <!-- Таб 1: Чек-лист -->
+          <button
+            onclick="switchTab('checklist')"
+            id="tabBtnChecklist"
+            class="flex-1 py-1.5 px-2 rounded-xl flex flex-col items-center gap-0.5 transition-all text-slate-800 bg-cream-100/90 font-semibold"
+          >
+            <div class="relative">
+              <i class="ph-duotone ph-suitcase-rolling text-xl"></i>
+              <span id="badgeChecklistRemaining" class="hidden absolute -top-1 -right-2 px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-[#C98A94] text-white">0</span>
+            </div>
+            <span class="text-[10px] tracking-tight">Чек-лист</span>
+          </button>
+
+          <!-- Таб 2: Поездки -->
+          <button
+            onclick="switchTab('trips')"
+            id="tabBtnTrips"
+            class="flex-1 py-1.5 px-2 rounded-xl flex flex-col items-center gap-0.5 transition-all text-slate-500 hover:text-slate-800"
+          >
+            <div class="relative">
+              <i class="ph-duotone ph-compass text-xl"></i>
+              <span id="badgeTripsCount" class="absolute -top-1 -right-2 px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-cream-200 text-slate-600">3</span>
+            </div>
+            <span class="text-[10px] tracking-tight">Поездки</span>
+          </button>
+
+          <!-- Таб 3: Инструменты -->
+          <button
+            onclick="switchTab('tools')"
+            id="tabBtnTools"
+            class="flex-1 py-1.5 px-2 rounded-xl flex flex-col items-center gap-0.5 transition-all text-slate-500 hover:text-slate-800"
+          >
+            <i class="ph-duotone ph-gear-six text-xl"></i>
+            <span class="text-[10px] tracking-tight">Опции</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ШТОРКА (BOTTOM SHEET): БЫСТРЫЙ ВЫБОР ПОЕЗДКИ ИЗ ШАПКИ -->
+  <div
+    id="tripPickerBackdrop"
+    class="fixed inset-0 bg-slate-900/35 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4 opacity-0 transition-opacity duration-200"
+  >
+    <div
+      id="tripPickerPanel"
+      class="bg-cream-50 border border-cream-200 rounded-t-3xl sm:rounded-3xl max-w-md w-full p-5 shadow-2xl transform translate-y-full sm:translate-y-0 sm:scale-95 transition-transform duration-200"
+    >
+      <div class="w-12 h-1 rounded-full bg-cream-300 mx-auto mb-3 sm:hidden"></div>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-bold text-slate-800">Выберите поездку</h3>
+        <button
+          onclick="closeTripPickerSheet()"
+          class="w-7 h-7 rounded-full bg-cream-100 flex items-center justify-center text-slate-500"
+        >
+          <i class="ph ph-x text-sm"></i>
+        </button>
+      </div>
+
+      <div id="tripPickerList" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
+        <!-- Заполняется в JS -->
+      </div>
+
+      <div class="pt-3 mt-3 border-t border-cream-200">
+        <button
+          onclick="closeTripPickerSheet(); openTripModal();"
+          class="w-full py-2.5 rounded-xl bg-slate-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5"
+        >
+          <i class="ph-bold ph-plus text-xs"></i>
+          <span>Создать новую поездку</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: СОЗДАНИЕ / РЕДАКТИРОВАНИЕ ПОЕЗДКИ -->
+  <div
+    id="tripModalBackdrop"
+    class="fixed inset-0 bg-slate-900/35 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4 opacity-0 transition-opacity duration-200"
+  >
+    <div
+      id="tripModalPanel"
+      class="bg-cream-50 border border-cream-200 rounded-t-3xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl transform translate-y-full sm:translate-y-0 sm:scale-95 transition-transform duration-200 max-h-[90vh] overflow-y-auto"
+    >
+      <div class="w-12 h-1 rounded-full bg-cream-300 mx-auto mb-3 sm:hidden"></div>
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="tripModalTitle" class="text-base sm:text-lg font-bold text-slate-800">Новая поездка</h3>
+        <button
+          onclick="closeTripModal()"
+          class="w-8 h-8 rounded-full bg-cream-100 hover:bg-cream-200 flex items-center justify-center text-slate-500"
+        >
+          <i class="ph ph-x text-base"></i>
+        </button>
+      </div>
+
+      <form id="tripForm" onsubmit="handleTripFormSubmit(event)" class="space-y-3.5">
+        <input type="hidden" id="tripFormId" value="" />
+
+        <div>
+          <label for="tripNameInput" class="block text-xs font-medium text-slate-600 mb-1">Название поездки *</label>
+          <input
+            id="tripNameInput"
+            type="text"
+            required
+            maxlength="60"
+            placeholder="Например: Выходные в горах"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-cream-300 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+          />
+        </div>
+
+        <div>
+          <label for="tripDatesInput" class="block text-xs font-medium text-slate-600 mb-1">Даты или место (необязательно)</label>
+          <input
+            id="tripDatesInput"
+            type="text"
+            maxlength="60"
+            placeholder="Например: 15–18 мая • Красная Поляна"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-cream-300 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Иконка настроения</label>
+          <div id="emojiPickerContainer" class="grid grid-cols-8 gap-1.5 p-2 rounded-2xl bg-cream-100 border border-cream-200">
+            <!-- JS -->
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Пастельный акцент</label>
+          <div id="themePickerContainer" class="grid grid-cols-5 gap-2">
+            <!-- JS -->
+          </div>
+        </div>
+
+        <div id="starterTemplateWrapper">
+          <label for="tripTemplateSelect" class="block text-xs font-medium text-slate-600 mb-1">Начальный список вещей</label>
+          <select
+            id="tripTemplateSelect"
+            class="w-full px-3 py-2.5 rounded-xl bg-white border border-cream-300 text-xs sm:text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-300"
+          >
+            <option value="basic">Базовый набор (8 вещей)</option>
+            <option value="weekend">Выходные за городом (6 вещей)</option>
+            <option value="empty">Пустой чек-лист (начну с нуля)</option>
+          </select>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onclick="closeTripModal()"
+            class="px-4 py-2.5 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-600 text-xs font-medium transition-colors"
+          >
+            Отмена
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold shadow-xs"
+          >
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: РЕДАКТИРОВАНИЕ ВЕЩИ -->
+  <div
+    id="editItemModalBackdrop"
+    class="fixed inset-0 bg-slate-900/35 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center p-0 sm:p-4 opacity-0 transition-opacity duration-200"
+  >
+    <div
+      id="editItemModalPanel"
+      class="bg-cream-50 border border-cream-200 rounded-t-3xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl transform translate-y-full sm:translate-y-0 sm:scale-95 transition-transform duration-200"
+    >
+      <div class="w-12 h-1 rounded-full bg-cream-300 mx-auto mb-3 sm:hidden"></div>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+          <i class="ph ph-pencil-simple text-slate-500"></i>
+          <span>Редактировать вещь</span>
+        </h3>
+        <button
+          onclick="closeEditItemModal()"
+          class="w-7 h-7 rounded-full bg-cream-100 flex items-center justify-center text-slate-500"
+        >
+          <i class="ph ph-x text-sm"></i>
+        </button>
+      </div>
+
+      <form id="editItemForm" onsubmit="handleEditItemSubmit(event)" class="space-y-3.5">
+        <input type="hidden" id="editItemIdInput" value="" />
+
+        <div>
+          <label for="editItemTitleInput" class="block text-xs font-medium text-slate-600 mb-1">Название вещи *</label>
+          <input
+            id="editItemTitleInput"
+            type="text"
+            required
+            maxlength="80"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-cream-300 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label for="editItemCategorySelect" class="block text-xs font-medium text-slate-600 mb-1">Категория</label>
+            <select
+              id="editItemCategorySelect"
+              class="w-full px-3 py-2.5 rounded-xl bg-white border border-cream-300 text-xs sm:text-sm text-slate-700 focus:outline-none"
+            >
+              <!-- JS -->
+            </select>
+          </div>
+
+          <div>
+            <label for="editItemQtyInput" class="block text-xs font-medium text-slate-600 mb-1">Количество</label>
+            <div class="flex items-center h-[42px] bg-white border border-cream-300 rounded-xl px-1.5">
+              <button
+                type="button"
+                onclick="adjustEditItemQty(-1)"
+                class="w-7 h-7 rounded-lg hover:bg-cream-100 text-slate-600 flex items-center justify-center text-xs"
+              >
+                <i class="ph-bold ph-minus"></i>
+              </button>
+              <input
+                id="editItemQtyInput"
+                type="number"
+                min="1"
+                max="99"
+                value="1"
+                class="w-full text-center bg-transparent text-xs font-bold text-slate-800 focus:outline-none"
+              />
+              <button
+                type="button"
+                onclick="adjustEditItemQty(1)"
+                class="w-7 h-7 rounded-lg hover:bg-cream-100 text-slate-600 flex items-center justify-center text-xs"
+              >
+                <i class="ph-bold ph-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onclick="closeEditItemModal()"
+            class="px-4 py-2 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-600 text-xs font-medium"
+          >
+            Отмена
+          </button>
+          <button
+            type="submit"
+            class="px-5 py-2 rounded-xl bg-slate-800 text-white text-xs font-semibold shadow-xs"
+          >
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ПОДТВЕРЖДЕНИЕ ДЕЙСТВИЯ -->
+  <div
+    id="confirmModalBackdrop"
+    class="fixed inset-0 bg-slate-900/35 backdrop-blur-sm z-50 hidden items-center justify-center p-4 opacity-0 transition-opacity duration-200"
+  >
+    <div
+      id="confirmModalPanel"
+      class="bg-cream-50 border border-cream-200 rounded-3xl max-w-sm w-full p-5 shadow-2xl transform scale-95 transition-transform duration-200"
+    >
+      <div class="w-10 h-10 rounded-2xl bg-[#F6E8EA] text-[#9B5B66] flex items-center justify-center mb-3 text-xl">
+        <i class="ph-duotone ph-warning-circle"></i>
+      </div>
+      <h3 id="confirmModalTitle" class="text-base font-bold text-slate-800 mb-1">Подтвердите</h3>
+      <p id="confirmModalText" class="text-xs text-slate-600 leading-relaxed mb-4"></p>
+      <div class="flex items-center justify-end gap-2">
+        <button
+          type="button"
+          onclick="closeConfirmModal()"
+          class="px-3.5 py-2 rounded-xl bg-cream-100 text-slate-600 text-xs font-medium"
+        >
+          Отмена
+        </button>
+        <button
+          id="confirmModalActionBtn"
+          type="button"
+          class="px-4 py-2 rounded-xl bg-[#9B5B66] hover:bg-[#874C56] text-white text-xs font-semibold shadow-xs"
+        >
+          Подтвердить
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- УВЕДОМЛЕНИЕ (TOAST) -->
+  <div id="toastContainer" class="fixed top-4 left-4 right-4 z-50 pointer-events-none flex flex-col items-center gap-2"></div>
+
+  <!-- JAVASCRIPT: ЯДРО ПРИЛОЖЕНИЯ -->
+  <script>
+    /********************************************************************
+     * КОНСТАНТЫ, ТЕМЫ И КАТЕГОРИИ
+     ********************************************************************/
+    const STORAGE_KEY = 'pastel_vacation_packing_v2';
+
+    const PASTEL_THEMES = {
+      sage: {
+        id: 'sage',
+        name: 'Шалфей',
+        className: 'theme-sage',
+        swatch: '#7BA696',
+        softBg: '#E6F0EC',
+        border: '#C5DDD3',
+        text: '#3A5E51'
+      },
+      peach: {
+        id: 'peach',
+        name: 'Персик',
+        className: 'theme-peach',
+        swatch: '#D99B7E',
+        softBg: '#F9EBE4',
+        border: '#EED0C0',
+        text: '#8C5238'
+      },
+      lavender: {
+        id: 'lavender',
+        name: 'Лаванда',
+        className: 'theme-lavender',
+        swatch: '#968BC4',
+        softBg: '#ECEAF6',
+        border: '#D3CEF0',
+        text: '#534780'
+      },
+      rose: {
+        id: 'rose',
+        name: 'Пыльная роза',
+        className: 'theme-rose',
+        swatch: '#C98A94',
+        softBg: '#F6E8EA',
+        border: '#E8C8CD',
+        text: '#7D444E'
+      },
+      sky: {
+        id: 'sky',
+        name: 'Небесный',
+        className: 'theme-sky',
+        swatch: '#7CA7C4',
+        softBg: '#E5EFF5',
+        border: '#C3DCEB',
+        text: '#3C617A'
+      }
+    };
+
+    const CATEGORIES = {
+      'Документы': { label: 'Документы', icon: 'ph-identification-card', badgeBg: '#ECEAF6', badgeText: '#534780', badgeBorder: '#D3CEF0' },
+      'Одежда': { label: 'Одежда', icon: 'ph-t-shirt', badgeBg: '#F9EBE4', badgeText: '#8C5238', badgeBorder: '#EED0C0' },
+      'Техника': { label: 'Техника', icon: 'ph-camera', badgeBg: '#E5EFF5', badgeText: '#3C617A', badgeBorder: '#C3DCEB' },
+      'Аптечка': { label: 'Аптечка', icon: 'ph-first-aid-kit', badgeBg: '#F6E8EA', badgeText: '#7D444E', badgeBorder: '#E8C8CD' },
+      'Гигиена': { label: 'Гигиена', icon: 'ph-drop', badgeBg: '#E6F0EC', badgeText: '#3A5E51', badgeBorder: '#C5DDD3' },
+      'Разное': { label: 'Разное', icon: 'ph-backpack', badgeBg: '#F3EFE6', badgeText: '#5C5446', badgeBorder: '#E0D8C8' }
+    };
+
+    const EMOJI_OPTIONS = [
+      '📸', '🌊', '🏛️', '🌲', '⛰️', '✈️', '🚆', '🏕️',
+      '🏖️', '🎿', '🚲', '🛶', '🌅', '☕', '🗺️', '🎒'
+    ];
+
+    /********************************************************************
+     * ДЕМО-ДАННЫЕ
+     ********************************************************************/
+    function getInitialSampleTrips() {
+      return [
+        {
+          id: 'trip-photo-weekend',
+          name: 'Фото-трип на выходные',
+          dates: '18–20 октября • Карелия',
+          emoji: '📸',
+          theme: 'sage',
+          items: [
+            { id: 'item-101', title: 'Паспорт РФ и полис ОМС', category: 'Документы', qty: 1, packed: true },
+            { id: 'item-102', title: 'Билеты на ретропоезд', category: 'Документы', qty: 2, packed: true },
+            { id: 'item-103', title: 'Камера и объектив 35мм', category: 'Техника', qty: 1, packed: true },
+            { id: 'item-104', title: 'Запасные SD-карты (64 ГБ)', category: 'Техника', qty: 2, packed: true },
+            { id: 'item-105', title: 'Запасной аккумулятор для камеры', category: 'Техника', qty: 2, packed: false },
+            { id: 'item-106', title: 'Лёгкий дорожный штатив', category: 'Техника', qty: 1, packed: false },
+            { id: 'item-107', title: 'Тёплое худи и ветровка', category: 'Одежда', qty: 1, packed: true },
+            { id: 'item-108', title: 'Треккинговые носки', category: 'Одежда', qty: 3, packed: true },
+            { id: 'item-109', title: 'Термос для горячего чая', category: 'Разное', qty: 1, packed: false },
+            { id: 'item-110', title: 'Повербанк и кабель USB-C', category: 'Техника', qty: 1, packed: true }
+          ]
+        },
+        {
+          id: 'trip-sea-vacation',
+          name: 'Отпуск у моря',
+          dates: '10–20 ноября • Побережье',
+          emoji: '🌊',
+          theme: 'peach',
+          items: [
+            { id: 'item-201', title: 'Загранпаспорт и страховка', category: 'Документы', qty: 1, packed: true },
+            { id: 'item-202', title: 'Авиабилеты и бронь отеля', category: 'Документы', qty: 1, packed: true },
+            { id: 'item-203', title: 'Солнцезащитный крем SPF 50', category: 'Гигиена', qty: 1, packed: true },
+            { id: 'item-204', title: 'Купальник / плавки', category: 'Одежда', qty: 2, packed: false },
+            { id: 'item-205', title: 'Льняные рубашки и футболки', category: 'Одежда', qty: 4, packed: false },
+            { id: 'item-206', title: 'Пляжные сланцы', category: 'Одежда', qty: 1, packed: false },
+            { id: 'item-207', title: 'Солнцезащитные очки и панама', category: 'Разное', qty: 1, packed: true },
+            { id: 'item-208', title: 'Дорожная аптечка', category: 'Аптечка', qty: 1, packed: false },
+            { id: 'item-209', title: 'Переходник для розеток', category: 'Техника', qty: 1, packed: false }
+          ]
+        },
+        {
+          id: 'trip-city-break',
+          name: 'Вылазка в Санкт-Петербург',
+          dates: '1–3 ноября • Городские прогулки',
+          emoji: '🏛️',
+          theme: 'lavender',
+          items: [
+            { id: 'item-301', title: 'Паспорт и билеты на «Сапсан»', category: 'Документы', qty: 1, packed: true },
+            { id: 'item-302', title: 'Зарядка для телефона', category: 'Техника', qty: 1, packed: true },
+            { id: 'item-303', title: 'Компактный складной зонт', category: 'Разное', qty: 1, packed: true },
+            { id: 'item-304', title: 'Удобные кроссовки для прогулок', category: 'Одежда', qty: 1, packed: true },
+            { id: 'item-305', title: 'Сменная одежда на 2 дня', category: 'Одежда', qty: 2, packed: true },
+            { id: 'item-306', title: 'Дорожный набор гигиены', category: 'Гигиена', qty: 1, packed: false }
+          ]
+        }
+      ];
+    }
+
+    /********************************************************************
+     * СОСТОЯНИЕ
+     ********************************************************************/
+    let state = {
+      trips: [],
+      selectedTripId: null,
+      currentTab: 'checklist', // 'checklist' | 'trips' | 'tools'
+      statusFilter: 'all', // 'all' | 'unpacked' | 'packed'
+      categoryFilter: 'all',
+      groupByCategory: true,
+      searchQuery: '',
+      modalSelectedEmoji: '📸',
+      modalSelectedTheme: 'sage'
+    };
+
+    /********************************************************************
+     * ХРАНИЛИЩЕ (LOCALSTORAGE)
+     ********************************************************************/
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('pastel_vacation_packing_v1');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.trips) && parsed.trips.length > 0) {
+            state.trips = parsed.trips;
+            state.selectedTripId = parsed.selectedTripId || parsed.trips[0].id;
+            if (!state.trips.some(t => t.id === state.selectedTripId)) {
+              state.selectedTripId = state.trips[0].id;
+            }
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Ошибка загрузки:', e);
+      }
+      state.trips = getInitialSampleTrips();
+      state.selectedTripId = state.trips[0].id;
+      saveState();
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          trips: state.trips,
+          selectedTripId: state.selectedTripId
+        }));
+      } catch (e) {
+        console.warn('Ошибка сохранения:', e);
+      }
+    }
+
+    /********************************************************************
+     * ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+     ********************************************************************/
+    function pluralizeRu(count, one, few, many) {
+      const mod10 = count % 10;
+      const mod100 = count % 100;
+      if (mod10 === 1 && mod100 !== 11) return one;
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+      return many;
+    }
+
+    function getTripProgress(trip) {
+      if (!trip || !trip.items) return { total: 0, packed: 0, percentage: 0, totalPieces: 0, packedPieces: 0 };
+      const total = trip.items.length;
+      const packed = trip.items.filter(i => i.packed).length;
+      const percentage = total === 0 ? 0 : Math.round((packed / total) * 100);
+      const totalPieces = trip.items.reduce((sum, i) => sum + (parseInt(i.qty) || 1), 0);
+      const packedPieces = trip.items.filter(i => i.packed).reduce((sum, i) => sum + (parseInt(i.qty) || 1), 0);
+      return { total, packed, percentage, totalPieces, packedPieces };
+    }
+
+    function getCurrentTrip() {
+      return state.trips.find(t => t.id === state.selectedTripId) || state.trips[0] || null;
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    /********************************************************************
+     * НАВИГАЦИЯ МЕЖДУ ВКЛАДКАМИ (ТАБАМИ)
+     ********************************************************************/
+    function switchTab(tabName) {
+      state.currentTab = tabName;
+
+      const viewChecklist = document.getElementById('tabChecklistView');
+      const viewTrips = document.getElementById('tabTripsView');
+      const viewTools = document.getElementById('tabToolsView');
+      const quickAddBar = document.getElementById('quickAddBarContainer');
+
+      viewChecklist.classList.add('hidden');
+      viewTrips.classList.add('hidden');
+      viewTools.classList.add('hidden');
+
+      const btnChecklist = document.getElementById('tabBtnChecklist');
+      const btnTrips = document.getElementById('tabBtnTrips');
+      const btnTools = document.getElementById('tabBtnTools');
+
+      // Сброс стилей кнопок
+      [btnChecklist, btnTrips, btnTools].forEach(btn => {
+        btn.className = 'flex-1 py-1.5 px-2 rounded-xl flex flex-col items-center gap-0.5 transition-all text-slate-500 hover:text-slate-800';
+      });
+
+      const activeBtnClass = 'flex-1 py-1.5 px-2 rounded-xl flex flex-col items-center gap-0.5 transition-all text-slate-800 bg-cream-100 font-semibold';
+
+      if (tabName === 'checklist') {
+        viewChecklist.classList.remove('hidden');
+        btnChecklist.className = activeBtnClass;
+        if (quickAddBar) quickAddBar.classList.remove('hidden');
+        renderChecklistTab();
+      } else if (tabName === 'trips') {
+        viewTrips.classList.remove('hidden');
+        btnTrips.className = activeBtnClass;
+        if (quickAddBar) quickAddBar.classList.add('hidden');
+        renderTripsTab();
+      } else if (tabName === 'tools') {
+        viewTools.classList.remove('hidden');
+        btnTools.className = activeBtnClass;
+        if (quickAddBar) quickAddBar.classList.add('hidden');
+      }
+
+      updateHeaderAndBadges();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateHeaderAndBadges() {
+      const trip = getCurrentTrip();
+      const emojiEl = document.getElementById('headerCurrentEmoji');
+      const nameEl = document.getElementById('headerCurrentTripName');
+      const badgeRemaining = document.getElementById('badgeChecklistRemaining');
+      const badgeTrips = document.getElementById('badgeTripsCount');
+
+      if (trip) {
+        if (emojiEl) emojiEl.textContent = trip.emoji || '🧳';
+        if (nameEl) nameEl.textContent = trip.name || 'Поездка';
+
+        const { total, packed } = getTripProgress(trip);
+        const remaining = total - packed;
+        if (badgeRemaining) {
+          if (remaining > 0) {
+            badgeRemaining.textContent = remaining;
+            badgeRemaining.classList.remove('hidden');
+          } else {
+            badgeRemaining.classList.add('hidden');
+          }
+        }
+      }
+
+      if (badgeTrips) {
+        badgeTrips.textContent = state.trips.length;
+      }
+    }
+
+    /********************************************************************
+     * РЕНДЕР ВКЛАДКИ 1: ЧЕК-ЛИСТ
+     ********************************************************************/
+    function renderChecklistTab() {
+      const container = document.getElementById('tabChecklistView');
+      if (!container) return;
+
+      const trip = getCurrentTrip();
+      if (!trip) {
+        container.innerHTML = `
+          <div class="py-12 px-4 rounded-3xl bg-white border border-cream-200 text-center space-y-3">
+            <div class="text-4xl">🧳</div>
+            <h3 class="text-base font-bold text-slate-800">Нет выбранной поездки</h3>
+            <p class="text-xs text-slate-500">Создайте свою первую поездку прямо сейчас</p>
+            <button onclick="openTripModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 text-white text-xs font-semibold">
+              Создать поездку
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      const theme = PASTEL_THEMES[trip.theme] || PASTEL_THEMES.sage;
+      const { total, packed, percentage, totalPieces, packedPieces } = getTripProgress(trip);
+      const unpacked = total - packed;
+      const isAllPacked = total > 0 && packed === total;
+
+      // Подсчет категорий
+      const categoryCounts = {};
+      trip.items.forEach(item => {
+        categoryCounts[item.category] = (categoryCounts[item.category] || 0) + 1;
+      });
+
+      const filteredItems = getFilteredItems(trip);
+
+      container.innerHTML = `
+        <div class="${theme.className} space-y-3.5">
+
+          <!-- КАРТОЧКА ПРОГРЕССА ТЕКУЩЕЙ ПОЕЗДКИ -->
+          <div class="bg-white border border-cream-200/90 rounded-3xl p-4 sm:p-5 shadow-2xs relative overflow-hidden">
+            <!-- Фоновый мягкий круг -->
+            <div
+              class="absolute -right-8 -top-8 w-36 h-36 rounded-full opacity-35 pointer-events-none blur-2xl"
+              style="background-color: ${theme.softBg};"
+            ></div>
+
+            <div class="relative z-10 space-y-3">
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div
+                    class="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl shrink-0 border shadow-2xs"
+                    style="background-color: ${theme.softBg}; border-color: ${theme.border};"
+                  >
+                    ${escapeHtml(trip.emoji || '🧳')}
+                  </div>
+                  <div class="min-w-0">
+                    <h2 class="text-base font-bold text-slate-800 tracking-tight truncate">${escapeHtml(trip.name)}</h2>
+                    <p class="text-[11px] text-slate-500 truncate flex items-center gap-1 mt-0.5">
+                      <i class="ph ph-calendar-blank"></i>
+                      <span>${trip.dates ? escapeHtml(trip.dates) : 'Даты не указаны'}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Быстрые действия -->
+                <div class="flex items-center gap-1 shrink-0">
+                  <div id="resetChecksButtonWrapper">
+                    ${packed > 0 ? `
+                      <button
+                        onclick="confirmResetChecks()"
+                        title="Сбросить отметки"
+                        class="w-8 h-8 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-600 flex items-center justify-center text-xs"
+                      >
+                        <i class="ph ph-arrow-counter-clockwise text-sm"></i>
+                      </button>
+                    ` : ''}
+                  </div>
+                  <button
+                    onclick="openTripModal('${trip.id}')"
+                    title="Настройки поездки"
+                    class="w-8 h-8 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-600 flex items-center justify-center text-xs"
+                  >
+                    <i class="ph ph-sliders-horizontal text-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Прогресс-бар -->
+              <div class="space-y-1.5 pt-1">
+                <div class="flex items-baseline justify-between gap-2">
+                  <div id="activeTripProgressSubtitle" class="text-xs font-medium text-slate-600">
+                    ${
+                      total === 0
+                        ? 'Добавьте первые вещи в список ниже'
+                        : `Собрано <strong class="font-bold text-slate-900">${packed}</strong> из <strong class="font-bold text-slate-900">${total}</strong> ${pluralizeRu(total, 'пункта', 'пунктов', 'пунктов')}${
+                            totalPieces > total
+                              ? `<span class="inline-block text-[11px] text-slate-500 font-normal ml-1 bg-cream-100 px-1.5 py-0.5 rounded-full border border-cream-200">${packedPieces}/${totalPieces} шт.</span>`
+                              : ''
+                          }`
+                    }
+                  </div>
+                  <span id="activeTripPercentage" class="text-xl font-bold tracking-tight" style="color: ${theme.text}">${percentage}%</span>
+                </div>
+
+                <div class="w-full h-3 rounded-xl bg-cream-100 border border-cream-200/80 p-0.5 overflow-hidden">
+                  <div
+                    id="activeTripProgressFill"
+                    class="h-full rounded-lg progress-fill relative"
+                    style="width: ${percentage}%; background-color: ${theme.swatch};"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Баннер 100% готовности -->
+              <div id="celebrationBannerWrapper">
+                ${isAllPacked ? `
+                  <div
+                    class="p-2.5 rounded-2xl border flex items-center justify-between gap-2 text-xs font-semibold animate-fade-slide"
+                    style="background-color: ${theme.softBg}; border-color: ${theme.border}; color: ${theme.text};"
+                  >
+                    <div class="flex items-center gap-2">
+                      <span>✨</span>
+                      <span>Чемодан собран полностью! (${totalPieces} шт.)</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-lg bg-white/80 text-[10px]">100%</span>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+
+          <!-- ФИЛЬТРЫ И КАТЕГОРИИ -->
+          <div class="bg-white border border-cream-200/90 rounded-2xl p-3 shadow-2xs space-y-2.5">
+            <!-- Табы состояния -->
+            <div class="flex items-center justify-between gap-2">
+              <div class="inline-flex p-0.5 rounded-xl bg-cream-100 border border-cream-200 text-[11px] font-medium">
+                <button
+                  onclick="setStatusFilter('all')"
+                  class="px-2.5 py-1 rounded-lg transition-all ${state.statusFilter === 'all' ? 'bg-white text-slate-800 shadow-2xs font-semibold' : 'text-slate-500'}"
+                >
+                  Все (<span id="tabFilterCountAll">${total}</span>)
+                </button>
+                <button
+                  onclick="setStatusFilter('unpacked')"
+                  class="px-2.5 py-1 rounded-lg transition-all ${state.statusFilter === 'unpacked' ? 'bg-white text-slate-800 shadow-2xs font-semibold' : 'text-slate-500'}"
+                >
+                  Осталось (<span id="tabFilterCountUnpacked">${unpacked}</span>)
+                </button>
+                <button
+                  onclick="setStatusFilter('packed')"
+                  class="px-2.5 py-1 rounded-lg transition-all ${state.statusFilter === 'packed' ? 'bg-white text-slate-800 shadow-2xs font-semibold' : 'text-slate-500'}"
+                >
+                  Собрано (<span id="tabFilterCountPacked">${packed}</span>)
+                </button>
+              </div>
+
+              <!-- Переключатель группировки -->
+              <button
+                onclick="toggleGroupByCategory()"
+                class="w-8 h-8 rounded-xl border flex items-center justify-center text-sm transition-colors ${
+                  state.groupByCategory
+                    ? 'bg-slate-800 text-white border-slate-800'
+                    : 'bg-cream-50 text-slate-600 border-cream-200 hover:bg-cream-100'
+                }"
+                title="Группировать по категориям"
+              >
+                <i class="ph ph-folders"></i>
+              </button>
+            </div>
+
+            <!-- Горизонтальная лента категорий -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 text-xs">
+              <button
+                onclick="setCategoryFilter('all')"
+                class="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors shrink-0 border ${
+                  state.categoryFilter === 'all'
+                    ? 'bg-slate-800 text-white border-slate-800 font-semibold'
+                    : 'bg-cream-50 text-slate-600 border-cream-200 hover:bg-cream-100'
+                }"
+              >
+                Все
+              </button>
+              ${Object.keys(CATEGORIES).map(catKey => {
+                const count = categoryCounts[catKey] || 0;
+                if (count === 0 && state.categoryFilter !== catKey) return '';
+                const catMeta = CATEGORIES[catKey];
+                const isActive = state.categoryFilter === catKey;
+                return `
+                  <button
+                    onclick="setCategoryFilter('${catKey}')"
+                    class="px-2.5 py-1 rounded-full text-[11px] font-medium transition-all shrink-0 border flex items-center gap-1"
+                    style="${
+                      isActive
+                        ? `background-color: ${catMeta.badgeText}; color: #fff; border-color: ${catMeta.badgeText}; font-weight: 600;`
+                        : `background-color: ${catMeta.badgeBg}; color: ${catMeta.badgeText}; border-color: ${catMeta.badgeBorder};`
+                    }"
+                  >
+                    <i class="ph ${catMeta.icon}"></i>
+                    <span>${catMeta.label}</span>
+                    <span class="opacity-80">(${count})</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- СПИСОК ВЕЩЕЙ -->
+          <div id="checklistItemsContainer" class="space-y-3">
+            ${renderChecklistItemsHTML(filteredItems, trip, theme)}
+          </div>
+
+        </div>
+      `;
+
+      // Заполнить категории в нижней панели ввода
+      updateQuickAddCategories();
+    }
+
+    function getFilteredItems(trip) {
+      if (!trip) trip = getCurrentTrip();
+      if (!trip) return [];
+      return trip.items.filter(item => {
+        if (state.statusFilter === 'unpacked' && item.packed) return false;
+        if (state.statusFilter === 'packed' && !item.packed) return false;
+        if (state.categoryFilter !== 'all' && item.category !== state.categoryFilter) return false;
+        if (state.searchQuery.trim() !== '') {
+          const q = state.searchQuery.trim().toLowerCase();
+          if (!item.title.toLowerCase().includes(q) && !item.category.toLowerCase().includes(q)) {
+            return false;
+          }
+        }
+        return true;
+      });
+    }
+
+    function renderChecklistOnly() {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+      const theme = PASTEL_THEMES[trip.theme] || PASTEL_THEMES.sage;
+      const filteredItems = getFilteredItems(trip);
+      const listContainer = document.getElementById('checklistItemsContainer');
+      if (listContainer) {
+        listContainer.innerHTML = renderChecklistItemsHTML(filteredItems, trip, theme);
+      }
+    }
+
+    function renderChecklistItemsHTML(filteredItems, trip, theme) {
+      if (trip.items.length === 0) {
+        return `
+          <div class="py-10 px-4 text-center rounded-2xl bg-white border border-dashed border-cream-300">
+            <div class="text-3xl mb-2">📋</div>
+            <p class="text-xs font-semibold text-slate-700">В чек-листе пока пусто</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Введите название вещи в строку внизу</p>
+          </div>
+        `;
+      }
+
+      if (filteredItems.length === 0) {
+        return `
+          <div class="py-8 px-4 text-center rounded-2xl bg-white border border-cream-200">
+            <p class="text-xs font-medium text-slate-600">Ничего не найдено</p>
+            <button onclick="resetFilters()" class="mt-2 px-3 py-1 rounded-xl bg-cream-100 text-slate-700 text-xs font-medium">
+              Сбросить фильтры
+            </button>
+          </div>
+        `;
+      }
+
+      if (!state.groupByCategory) {
+        return `
+          <div class="divide-y divide-cream-100 border border-cream-200 rounded-2xl overflow-hidden bg-white shadow-2xs">
+            ${filteredItems.map(item => renderSingleItemRow(item, theme)).join('')}
+          </div>
+        `;
+      }
+
+      // Группировка по категориям
+      const grouped = {};
+      Object.keys(CATEGORIES).forEach(cat => { grouped[cat] = []; });
+      filteredItems.forEach(item => {
+        const cat = CATEGORIES[item.category] ? item.category : 'Разное';
+        grouped[cat].push(item);
+      });
+
+      return Object.keys(grouped)
+        .filter(cat => grouped[cat].length > 0)
+        .map(cat => {
+          const catMeta = CATEGORIES[cat] || CATEGORIES['Разное'];
+          const itemsInCat = grouped[cat];
+          const packedInCat = itemsInCat.filter(i => i.packed).length;
+
+          return `
+            <div class="border border-cream-200 rounded-2xl overflow-hidden bg-white shadow-2xs">
+              <div
+                class="px-3.5 py-2 flex items-center justify-between border-b border-cream-200/80"
+                style="background-color: ${catMeta.badgeBg}66;"
+              >
+                <div class="flex items-center gap-2">
+                  <span
+                    class="w-5 h-5 rounded-md flex items-center justify-center text-xs"
+                    style="background-color: ${catMeta.badgeBg}; color: ${catMeta.badgeText};"
+                  >
+                    <i class="ph-duotone ${catMeta.icon}"></i>
+                  </span>
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700">${catMeta.label}</h4>
+                </div>
+                <span data-cat-header-count="${cat}" class="text-[11px] font-medium text-slate-500">
+                  ${packedInCat} из ${itemsInCat.length}
+                </span>
+              </div>
+              <div class="divide-y divide-cream-100 bg-white">
+                ${itemsInCat.map(item => renderSingleItemRow(item, theme)).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+    }
+
+    function renderSingleItemRow(item, theme) {
+      const catMeta = CATEGORIES[item.category] || CATEGORIES['Разное'];
+
+      return `
+        <div id="item-row-${item.id}" data-item-id="${item.id}" class="group px-3.5 py-2.5 flex items-center justify-between gap-2.5 hover:bg-cream-50/70 transition-colors">
+          <!-- Левая часть: Чекбокс + Название -->
+          <label class="flex items-center gap-3 min-w-0 flex-1 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              ${item.packed ? 'checked' : ''}
+              onchange="toggleItemPacked('${item.id}')"
+              class="sr-only"
+            />
+            <span
+              class="custom-checkbox w-6 h-6 rounded-lg flex items-center justify-center shrink-0 border ${
+                item.packed ? 'shadow-2xs' : 'bg-white hover:border-slate-400'
+              }"
+              style="${
+                item.packed
+                  ? `background-color: ${theme.swatch}; border-color: ${theme.swatch};`
+                  : `border-color: #D5CBB8;`
+              }"
+            >
+              <svg
+                class="w-3.5 h-3.5 text-white ${item.packed ? 'scale-100 opacity-100' : 'scale-50 opacity-0'}"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+
+            <div class="min-w-0 flex-1 flex flex-wrap items-center gap-1.5">
+              <span
+                ondblclick="openEditItemModal('${item.id}')"
+                title="Двойной клик для редактирования"
+                class="item-title-text text-xs sm:text-sm font-medium break-words ${
+                  item.packed ? 'line-through text-slate-400' : 'text-slate-800'
+                }"
+              >
+                ${escapeHtml(item.title)}
+              </span>
+
+              ${!state.groupByCategory ? `
+                <span
+                  class="text-[10px] font-medium px-1.5 py-0.2 rounded border"
+                  style="background-color: ${catMeta.badgeBg}; color: ${catMeta.badgeText}; border-color: ${catMeta.badgeBorder};"
+                >
+                  ${catMeta.label}
+                </span>
+              ` : ''}
+            </div>
+          </label>
+
+          <!-- Правая часть: Количество + Карандаш + Удаление -->
+          <div class="flex items-center gap-1 shrink-0">
+            <!-- Счетчик шт. -->
+            <div class="flex items-center rounded-lg bg-cream-100/90 border border-cream-200 px-0.5 py-0.5">
+              <button
+                type="button"
+                onclick="changeItemQty('${item.id}', -1)"
+                class="w-5 h-5 rounded text-slate-500 hover:text-slate-800 flex items-center justify-center text-[10px]"
+                title="Уменьшить"
+              >
+                <i class="ph-bold ph-minus"></i>
+              </button>
+              <span data-qty-item-id="${item.id}" class="px-1 text-[11px] font-semibold text-slate-700 min-w-[28px] text-center">
+                ${item.qty}
+              </span>
+              <button
+                type="button"
+                onclick="changeItemQty('${item.id}', 1)"
+                class="w-5 h-5 rounded text-slate-500 hover:text-slate-800 flex items-center justify-center text-[10px]"
+                title="Увеличить"
+              >
+                <i class="ph-bold ph-plus"></i>
+              </button>
+            </div>
+
+            <!-- Редактировать (карандаш) -->
+            <button
+              type="button"
+              onclick="openEditItemModal('${item.id}')"
+              class="w-7 h-7 rounded-lg text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors"
+              title="Редактировать"
+            >
+              <i class="ph ph-pencil-simple text-sm"></i>
+            </button>
+
+            <!-- Удалить -->
+            <button
+              type="button"
+              onclick="deleteChecklistItem('${item.id}')"
+              class="w-7 h-7 rounded-lg text-slate-400 hover:text-[#9B5B66] flex items-center justify-center transition-colors"
+              title="Удалить"
+            >
+              <i class="ph ph-x text-sm"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    /********************************************************************
+     * РЕНДЕР ВКЛАДКИ 2: ВСЕ ПОЕЗДКИ
+     ********************************************************************/
+    function renderTripsTab() {
+      const container = document.getElementById('tripsListVerticalContainer');
+      if (!container) return;
+
+      if (state.trips.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 rounded-3xl bg-white border border-cream-200 text-center space-y-3">
+            <div class="text-3xl">🗺️</div>
+            <p class="text-sm font-semibold text-slate-800">Список поездок пуст</p>
+            <button onclick="openTripModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-white text-xs font-semibold">
+              Создать поездку
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = state.trips.map(trip => {
+        const isSelected = trip.id === state.selectedTripId;
+        const theme = PASTEL_THEMES[trip.theme] || PASTEL_THEMES.sage;
+        const { total, packed, percentage, totalPieces, packedPieces } = getTripProgress(trip);
+        const isComplete = total > 0 && packed === total;
+
+        return `
+          <div
+            class="${theme.className} rounded-3xl p-4 transition-all border ${
+              isSelected
+                ? 'bg-white border-[var(--accent-solid)] shadow-md ring-2 ring-[var(--accent-bg)]'
+                : 'bg-white/80 hover:bg-white border-cream-200 shadow-2xs'
+            }"
+          >
+            <div class="flex items-start justify-between gap-3 mb-2.5">
+              <div class="flex items-center gap-3 min-w-0">
+                <div
+                  class="w-11 h-11 rounded-2xl flex items-center justify-center text-xl shrink-0 border"
+                  style="background-color: ${theme.softBg}; border-color: ${theme.border};"
+                >
+                  ${escapeHtml(trip.emoji || '🧳')}
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <h3 class="font-bold text-sm text-slate-800 truncate">${escapeHtml(trip.name)}</h3>
+                    ${isSelected ? `<span class="text-[10px] font-bold px-2 py-0.2 rounded-full bg-slate-800 text-white">Текущая</span>` : ''}
+                    ${isComplete ? `<span class="text-[10px] font-bold px-2 py-0.2 rounded-full" style="background-color: ${theme.softBg}; color: ${theme.text};">Собрано</span>` : ''}
+                  </div>
+                  <p class="text-[11px] text-slate-500 truncate mt-0.5">
+                    ${trip.dates ? escapeHtml(trip.dates) : 'Даты не указаны'}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Кнопки управления -->
+              <div class="flex items-center gap-1 shrink-0">
+                <button
+                  onclick="openTripModal('${trip.id}')"
+                  title="Редактировать"
+                  class="w-7 h-7 rounded-lg text-slate-400 hover:text-slate-700 flex items-center justify-center"
+                >
+                  <i class="ph ph-pencil-simple text-sm"></i>
+                </button>
+                <button
+                  onclick="confirmDeleteTrip('${trip.id}')"
+                  title="Удалить"
+                  class="w-7 h-7 rounded-lg text-slate-400 hover:text-[#9B5B66] flex items-center justify-center"
+                >
+                  <i class="ph ph-trash text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Прогресс -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-slate-500 font-medium">
+                  ${total === 0 ? 'Список пуст' : `Собрано ${packed} из ${total} ${pluralizeRu(total, 'пункта', 'пунктов', 'пунктов')}`}
+                </span>
+                <span class="font-bold" style="color: ${theme.text}">${percentage}%</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-cream-100 overflow-hidden p-[1px]">
+                <div
+                  class="h-full rounded-full progress-fill"
+                  style="width: ${percentage}%; background-color: ${theme.swatch};"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Кнопка перехода в чек-лист -->
+            <div class="mt-3 pt-2.5 border-t border-cream-100 flex items-center justify-between gap-2">
+              <button
+                onclick="selectTripAndGo('${trip.id}')"
+                class="flex-1 py-1.5 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors ${
+                  isSelected
+                    ? 'bg-cream-100 hover:bg-cream-200 text-slate-800'
+                    : 'bg-slate-800 hover:bg-slate-700 text-white shadow-xs'
+                }"
+              >
+                <i class="ph ph-suitcase text-sm"></i>
+                <span>${isSelected ? 'Открыть чек-лист' : 'Выбрать и открыть'}</span>
+              </button>
+
+              ${packed > 0 ? `
+                <button
+                  onclick="confirmResetChecksForTrip('${trip.id}')"
+                  title="Сбросить отметки перед выездом"
+                  class="py-1.5 px-2.5 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-600 text-xs font-medium flex items-center gap-1"
+                >
+                  <i class="ph ph-arrow-counter-clockwise text-xs"></i>
+                  <span class="text-[11px]">Сброс</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectTripAndGo(tripId) {
+      state.selectedTripId = tripId;
+      state.statusFilter = 'all';
+      state.categoryFilter = 'all';
+      saveState();
+      switchTab('checklist');
+    }
+
+    /********************************************************************
+     * ДЕЙСТВИЯ С ВЕЩАМИ (IN-PLACE РЕНДЕР)
+     ********************************************************************/
+    function updateProgressUI(trip) {
+      if (!trip) trip = getCurrentTrip();
+      if (!trip) return;
+
+      const theme = PASTEL_THEMES[trip.theme] || PASTEL_THEMES.sage;
+      const { total, packed, percentage, totalPieces, packedPieces } = getTripProgress(trip);
+      const unpacked = total - packed;
+      const isAllPacked = total > 0 && packed === total;
+
+      const pctEl = document.getElementById('activeTripPercentage');
+      if (pctEl) pctEl.textContent = `${percentage}%`;
+
+      const fillEl = document.getElementById('activeTripProgressFill');
+      if (fillEl) fillEl.style.width = `${percentage}%`;
+
+      const subEl = document.getElementById('activeTripProgressSubtitle');
+      if (subEl) {
+        if (total === 0) {
+          subEl.innerHTML = 'Добавьте первые вещи в список ниже';
+        } else {
+          let piecesHtml = '';
+          if (totalPieces > total) {
+            piecesHtml = `<span class="inline-block text-[11px] text-slate-500 font-normal ml-1 bg-cream-100 px-1.5 py-0.5 rounded-full border border-cream-200">${packedPieces}/${totalPieces} шт.</span>`;
+          }
+          subEl.innerHTML = `Собрано <strong class="font-bold text-slate-900">${packed}</strong> из <strong class="font-bold text-slate-900">${total}</strong> ${pluralizeRu(total, 'пункта', 'пунктов', 'пунктов')}${piecesHtml}`;
+        }
+      }
+
+      const celebWrapper = document.getElementById('celebrationBannerWrapper');
+      if (celebWrapper) {
+        if (isAllPacked) {
+          celebWrapper.innerHTML = `
+            <div
+              class="p-2.5 rounded-2xl border flex items-center justify-between gap-2 text-xs font-semibold animate-fade-slide"
+              style="background-color: ${theme.softBg}; border-color: ${theme.border}; color: ${theme.text};"
+            >
+              <div class="flex items-center gap-2">
+                <span>✨</span>
+                <span>Чемодан собран полностью! (${totalPieces} шт.)</span>
+              </div>
+              <span class="px-2 py-0.5 rounded-lg bg-white/80 text-[10px]">100%</span>
+            </div>
+          `;
+        } else {
+          celebWrapper.innerHTML = '';
+        }
+      }
+
+      const resetBtnWrapper = document.getElementById('resetChecksButtonWrapper');
+      if (resetBtnWrapper) {
+        if (packed > 0) {
+          resetBtnWrapper.innerHTML = `
+            <button
+              onclick="confirmResetChecks()"
+              title="Сбросить отметки"
+              class="w-8 h-8 rounded-xl bg-cream-100 hover:bg-cream-200 text-slate-600 flex items-center justify-center text-xs"
+            >
+              <i class="ph ph-arrow-counter-clockwise text-sm"></i>
+            </button>
+          `;
+        } else {
+          resetBtnWrapper.innerHTML = '';
+        }
+      }
+
+      const tabAll = document.getElementById('tabFilterCountAll');
+      if (tabAll) tabAll.textContent = total;
+      const tabUnpacked = document.getElementById('tabFilterCountUnpacked');
+      if (tabUnpacked) tabUnpacked.textContent = unpacked;
+      const tabPacked = document.getElementById('tabFilterCountPacked');
+      if (tabPacked) tabPacked.textContent = packed;
+
+      updateHeaderAndBadges();
+    }
+
+    function toggleItemPacked(itemId) {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      const item = trip.items.find(i => i.id === itemId);
+      if (!item) return;
+
+      item.packed = !item.packed;
+      saveState();
+
+      if (state.statusFilter !== 'all') {
+        renderChecklistOnly();
+        updateProgressUI(trip);
+        return;
+      }
+
+      const rowEl = document.getElementById(`item-row-${item.id}`);
+      const theme = PASTEL_THEMES[trip.theme] || PASTEL_THEMES.sage;
+      if (rowEl) {
+        const checkboxBox = rowEl.querySelector('.custom-checkbox');
+        const checkSvg = rowEl.querySelector('.custom-checkbox svg');
+        const titleEl = rowEl.querySelector('.item-title-text');
+        const inputCheckbox = rowEl.querySelector('input[type="checkbox"]');
+
+        if (inputCheckbox) inputCheckbox.checked = item.packed;
+
+        if (item.packed) {
+          if (checkboxBox) {
+            checkboxBox.style.backgroundColor = theme.swatch;
+            checkboxBox.style.borderColor = theme.swatch;
+            checkboxBox.classList.add('shadow-2xs');
+            checkboxBox.classList.remove('bg-white');
+          }
+          if (checkSvg) {
+            checkSvg.classList.remove('scale-50', 'opacity-0');
+            checkSvg.classList.add('scale-100', 'opacity-100');
+          }
+          if (titleEl) {
+            titleEl.classList.add('line-through', 'text-slate-400');
+            titleEl.classList.remove('text-slate-800');
+          }
+        } else {
+          if (checkboxBox) {
+            checkboxBox.style.backgroundColor = '';
+            checkboxBox.style.borderColor = '#D5CBB8';
+            checkboxBox.classList.remove('shadow-2xs');
+            checkboxBox.classList.add('bg-white');
+          }
+          if (checkSvg) {
+            checkSvg.classList.remove('scale-100', 'opacity-100');
+            checkSvg.classList.add('scale-50', 'opacity-0');
+          }
+          if (titleEl) {
+            titleEl.classList.remove('line-through', 'text-slate-400');
+            titleEl.classList.add('text-slate-800');
+          }
+        }
+
+        if (state.groupByCategory) {
+          updateCategoryGroupHeader(item.category, trip);
+        }
+      }
+
+      updateProgressUI(trip);
+    }
+
+    function updateCategoryGroupHeader(category, trip) {
+      if (!trip) trip = getCurrentTrip();
+      if (!trip) return;
+      const span = document.querySelector(`[data-cat-header-count="${category}"]`);
+      if (span) {
+        const itemsInCat = trip.items.filter(i => (CATEGORIES[i.category] ? i.category : 'Разное') === category);
+        const packedInCat = itemsInCat.filter(i => i.packed).length;
+        span.textContent = `${packedInCat} из ${itemsInCat.length}`;
+      }
+    }
+
+    function changeItemQty(itemId, delta) {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      const item = trip.items.find(i => i.id === itemId);
+      if (!item) return;
+
+      const nextQty = item.qty + delta;
+      if (nextQty < 1 || nextQty > 99) return;
+      item.qty = nextQty;
+      saveState();
+
+      const qtySpan = document.querySelector(`[data-qty-item-id="${item.id}"]`);
+      if (qtySpan) {
+        qtySpan.textContent = item.qty;
+      }
+      updateProgressUI(trip);
+    }
+
+    function deleteChecklistItem(itemId) {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      const idx = trip.items.findIndex(i => i.id === itemId);
+      if (idx === -1) return;
+
+      const removed = trip.items[idx];
+      trip.items.splice(idx, 1);
+      saveState();
+      renderChecklistTab();
+      showToast(`Удалено: «${removed.title}»`);
+    }
+
+    /********************************************************************
+     * ЭРГОНОМИКА ВВОДА С ТЕЛЕФОНА (КЛАВИАТУРА И БЫСТРОЕ ДОБАВЛЕНИЕ)
+     ********************************************************************/
+    function updateQuickAddCategories() {
+      const select = document.getElementById('quickAddCategory');
+      if (!select) return;
+      select.innerHTML = Object.keys(CATEGORIES).map(cat => `
+        <option value="${cat}">${cat}</option>
+      `).join('');
+    }
+
+    function handleInputFocus() {
+      // При появлении клавиатуры скрываем нижний таб-бар,
+      // строка ввода автоматически прижимается к клавиатуре
+      const bottomDock = document.getElementById('bottomNavDock');
+      if (bottomDock) {
+        bottomDock.classList.add('hidden');
+      }
+    }
+
+    function handleInputBlur() {
+      // Возвращаем таб-бар на место
+      setTimeout(() => {
+        const bottomDock = document.getElementById('bottomNavDock');
+        if (bottomDock) {
+          bottomDock.classList.remove('hidden');
+        }
+      }, 150);
+    }
+
+    function handleQuickAddSubmit(event) {
+      event.preventDefault();
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      const input = document.getElementById('quickAddInput');
+      const catSelect = document.getElementById('quickAddCategory');
+      const title = input.value.trim();
+      if (!title) return;
+
+      const newItem = {
+        id: 'item-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+        title,
+        category: catSelect ? catSelect.value : 'Разное',
+        qty: 1,
+        packed: false
+      };
+
+      trip.items.unshift(newItem);
+      input.value = '';
+      saveState();
+      renderChecklistTab();
+      showToast(`Добавлено: «${newItem.title}»`);
+    }
+
+    function setStatusFilter(filter) {
+      state.statusFilter = filter;
+      renderChecklistTab();
+    }
+
+    function setCategoryFilter(category) {
+      state.categoryFilter = category;
+      renderChecklistTab();
+    }
+
+    function toggleGroupByCategory() {
+      state.groupByCategory = !state.groupByCategory;
+      renderChecklistTab();
+    }
+
+    function resetFilters() {
+      state.statusFilter = 'all';
+      state.categoryFilter = 'all';
+      state.searchQuery = '';
+      renderChecklistTab();
+    }
+
+    /********************************************************************
+     * МОДАЛКИ: РЕДАКТИРОВАНИЕ ВЕЩИ
+     ********************************************************************/
+    function openEditItemModal(itemId) {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+      const item = trip.items.find(i => i.id === itemId);
+      if (!item) return;
+
+      document.getElementById('editItemIdInput').value = item.id;
+      document.getElementById('editItemTitleInput').value = item.title;
+
+      const catSelect = document.getElementById('editItemCategorySelect');
+      if (catSelect) {
+        catSelect.innerHTML = Object.keys(CATEGORIES).map(cat => `
+          <option value="${cat}" ${item.category === cat ? 'selected' : ''}>${cat}</option>
+        `).join('');
+      }
+
+      document.getElementById('editItemQtyInput').value = item.qty || 1;
+
+      const backdrop = document.getElementById('editItemModalBackdrop');
+      const panel = document.getElementById('editItemModalPanel');
+
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('translate-y-full', 'scale-95');
+        panel.classList.add('translate-y-0', 'scale-100');
+        const input = document.getElementById('editItemTitleInput');
+        input.focus();
+        input.select();
+      });
+    }
+
+    function closeEditItemModal() {
+      const backdrop = document.getElementById('editItemModalBackdrop');
+      const panel = document.getElementById('editItemModalPanel');
+      if (!backdrop || !panel) return;
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('translate-y-full');
+      panel.classList.remove('translate-y-0');
+      setTimeout(() => {
+        backdrop.classList.remove('flex');
+        backdrop.classList.add('hidden');
+      }, 180);
+    }
+
+    function adjustEditItemQty(delta) {
+      const input = document.getElementById('editItemQtyInput');
+      if (!input) return;
+      let val = parseInt(input.value) || 1;
+      val = Math.max(1, Math.min(99, val + delta));
+      input.value = val;
+    }
+
+    function handleEditItemSubmit(event) {
+      event.preventDefault();
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      const itemId = document.getElementById('editItemIdInput').value;
+      const item = trip.items.find(i => i.id === itemId);
+      if (!item) return;
+
+      const title = document.getElementById('editItemTitleInput').value.trim();
+      const category = document.getElementById('editItemCategorySelect').value;
+      const qty = Math.max(1, Math.min(99, parseInt(document.getElementById('editItemQtyInput').value) || 1));
+
+      if (!title) return;
+
+      item.title = title;
+      item.category = category;
+      item.qty = qty;
+
+      saveState();
+      closeEditItemModal();
+      renderChecklistTab();
+      showToast(`Обновлено: «${item.title}»`);
+    }
+
+    /********************************************************************
+     * МОДАЛКИ: СОЗДАНИЕ И РЕДАКТИРОВАНИЕ ПОЕЗДКИ
+     ********************************************************************/
+    function renderModalPickers() {
+      const emojiContainer = document.getElementById('emojiPickerContainer');
+      if (emojiContainer) {
+        emojiContainer.innerHTML = EMOJI_OPTIONS.map(emoji => `
+          <button
+            type="button"
+            onclick="selectModalEmoji('${emoji}')"
+            class="h-9 rounded-xl flex items-center justify-center text-lg transition-all ${
+              state.modalSelectedEmoji === emoji
+                ? 'bg-white shadow-xs ring-2 ring-slate-700 scale-105'
+                : 'hover:bg-white/60 opacity-80'
+            }"
+          >
+            ${emoji}
+          </button>
+        `).join('');
+      }
+
+      const themeContainer = document.getElementById('themePickerContainer');
+      if (themeContainer) {
+        themeContainer.innerHTML = Object.values(PASTEL_THEMES).map(t => `
+          <button
+            type="button"
+            onclick="selectModalTheme('${t.id}')"
+            class="p-2 rounded-2xl border flex flex-col items-center gap-1 transition-all ${
+              state.modalSelectedTheme === t.id ? 'bg-white ring-2 ring-slate-700 shadow-2xs' : 'bg-white/60'
+            }"
+            style="border-color: ${t.border};"
+          >
+            <span class="w-5 h-5 rounded-full border border-black/10" style="background-color: ${t.swatch};"></span>
+            <span class="text-[10px] font-medium text-slate-700">${t.name}</span>
+          </button>
+        `).join('');
+      }
+    }
+
+    function selectModalEmoji(emoji) {
+      state.modalSelectedEmoji = emoji;
+      renderModalPickers();
+    }
+
+    function selectModalTheme(themeId) {
+      state.modalSelectedTheme = themeId;
+      renderModalPickers();
+    }
+
+    function openTripModal(editTripId = null) {
+      const backdrop = document.getElementById('tripModalBackdrop');
+      const panel = document.getElementById('tripModalPanel');
+      const titleEl = document.getElementById('tripModalTitle');
+      const idInput = document.getElementById('tripFormId');
+      const nameInput = document.getElementById('tripNameInput');
+      const datesInput = document.getElementById('tripDatesInput');
+      const starterWrapper = document.getElementById('starterTemplateWrapper');
+
+      if (editTripId) {
+        const trip = state.trips.find(t => t.id === editTripId);
+        if (!trip) return;
+        titleEl.textContent = 'Редактировать поездку';
+        idInput.value = trip.id;
+        nameInput.value = trip.name;
+        datesInput.value = trip.dates || '';
+        state.modalSelectedEmoji = trip.emoji || '🧳';
+        state.modalSelectedTheme = trip.theme || 'sage';
+        starterWrapper.classList.add('hidden');
+      } else {
+        titleEl.textContent = 'Новая поездка';
+        idInput.value = '';
+        nameInput.value = '';
+        datesInput.value = '';
+        state.modalSelectedEmoji = '✈️';
+        state.modalSelectedTheme = 'sky';
+        starterWrapper.classList.remove('hidden');
+      }
+
+      renderModalPickers();
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('translate-y-full', 'scale-95');
+        panel.classList.add('translate-y-0', 'scale-100');
+        nameInput.focus();
+      });
+    }
+
+    function closeTripModal() {
+      const backdrop = document.getElementById('tripModalBackdrop');
+      const panel = document.getElementById('tripModalPanel');
+      if (!backdrop || !panel) return;
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('translate-y-full');
+      panel.classList.remove('translate-y-0');
+      setTimeout(() => {
+        backdrop.classList.remove('flex');
+        backdrop.classList.add('hidden');
+      }, 180);
+    }
+
+    function getStarterItemsByTemplate(templateName) {
+      const now = Date.now();
+      if (templateName === 'basic') {
+        return [
+          { id: `item-${now}-1`, title: 'Паспорт и документы', category: 'Документы', qty: 1, packed: false },
+          { id: `item-${now}-2`, title: 'Билеты и бронь', category: 'Документы', qty: 1, packed: false },
+          { id: `item-${now}-3`, title: 'Зарядка для телефона', category: 'Техника', qty: 1, packed: false },
+          { id: `item-${now}-4`, title: 'Повербанк', category: 'Техника', qty: 1, packed: false },
+          { id: `item-${now}-5`, title: 'Зубная щётка и паста', category: 'Гигиена', qty: 1, packed: false },
+          { id: `item-${now}-6`, title: 'Сменное бельё и носки', category: 'Одежда', qty: 3, packed: false },
+          { id: `item-${now}-7`, title: 'Повседневная одежда', category: 'Одежда', qty: 2, packed: false },
+          { id: `item-${now}-8`, title: 'Базовая аптечка', category: 'Аптечка', qty: 1, packed: false }
+        ];
+      }
+      if (templateName === 'weekend') {
+        return [
+          { id: `item-${now}-1`, title: 'Паспорт и карта', category: 'Документы', qty: 1, packed: false },
+          { id: `item-${now}-2`, title: 'Зарядка и наушники', category: 'Техника', qty: 1, packed: false },
+          { id: `item-${now}-3`, title: 'Удобное худи', category: 'Одежда', qty: 1, packed: false },
+          { id: `item-${now}-4`, title: 'Сменное бельё', category: 'Одежда', qty: 2, packed: false },
+          { id: `item-${now}-5`, title: 'Дорожная гигиена', category: 'Гигиена', qty: 1, packed: false },
+          { id: `item-${now}-6`, title: 'Бутылка воды', category: 'Разное', qty: 1, packed: false }
+        ];
+      }
+      return [];
+    }
+
+    function handleTripFormSubmit(event) {
+      event.preventDefault();
+      const id = document.getElementById('tripFormId').value;
+      const name = document.getElementById('tripNameInput').value.trim();
+      const dates = document.getElementById('tripDatesInput').value.trim();
+      const template = document.getElementById('tripTemplateSelect').value;
+
+      if (!name) return;
+
+      if (id) {
+        const existing = state.trips.find(t => t.id === id);
+        if (existing) {
+          existing.name = name;
+          existing.dates = dates;
+          existing.emoji = state.modalSelectedEmoji;
+          existing.theme = state.modalSelectedTheme;
+          showToast('Поездка обновлена');
+        }
+      } else {
+        const newTrip = {
+          id: 'trip-' + Date.now(),
+          name,
+          dates,
+          emoji: state.modalSelectedEmoji,
+          theme: state.modalSelectedTheme,
+          items: getStarterItemsByTemplate(template)
+        };
+        state.trips.unshift(newTrip);
+        state.selectedTripId = newTrip.id;
+        showToast(`Создана поездка «${name}»`);
+      }
+
+      saveState();
+      closeTripModal();
+      if (state.currentTab === 'checklist') {
+        renderChecklistTab();
+      } else {
+        renderTripsTab();
+      }
+      updateHeaderAndBadges();
+    }
+
+    /********************************************************************
+     * ШТОРКА БЫСТРОГО ВЫБОРА ПОЕЗДКИ
+     ********************************************************************/
+    function openTripPickerSheet() {
+      const container = document.getElementById('tripPickerList');
+      if (!container) return;
+
+      container.innerHTML = state.trips.map(trip => {
+        const isSelected = trip.id === state.selectedTripId;
+        const { total, packed, percentage } = getTripProgress(trip);
+        return `
+          <button
+            onclick="selectTripAndCloseSheet('${trip.id}')"
+            class="w-full p-3 rounded-2xl border text-left flex items-center justify-between gap-3 transition-all ${
+              isSelected ? 'bg-white border-slate-700 shadow-xs ring-1 ring-slate-700' : 'bg-white/70 border-cream-200 hover:bg-white'
+            }"
+          >
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-2xl shrink-0">${trip.emoji || '🧳'}</span>
+              <div class="min-w-0">
+                <div class="font-bold text-xs sm:text-sm text-slate-800 truncate">${escapeHtml(trip.name)}</div>
+                <div class="text-[11px] text-slate-500 truncate">${trip.dates || 'Даты не указаны'}</div>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-xs font-bold text-slate-700">${percentage}%</div>
+              <div class="text-[10px] text-slate-400">${packed}/${total}</div>
+            </div>
+          </button>
+        `;
+      }).join('');
+
+      const backdrop = document.getElementById('tripPickerBackdrop');
+      const panel = document.getElementById('tripPickerPanel');
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('translate-y-full');
+        panel.classList.add('translate-y-0');
+      });
+    }
+
+    function closeTripPickerSheet() {
+      const backdrop = document.getElementById('tripPickerBackdrop');
+      const panel = document.getElementById('tripPickerPanel');
+      if (!backdrop || !panel) return;
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('translate-y-full');
+      panel.classList.remove('translate-y-0');
+      setTimeout(() => {
+        backdrop.classList.remove('flex');
+        backdrop.classList.add('hidden');
+      }, 180);
+    }
+
+    function selectTripAndCloseSheet(tripId) {
+      state.selectedTripId = tripId;
+      state.statusFilter = 'all';
+      state.categoryFilter = 'all';
+      saveState();
+      closeTripPickerSheet();
+      renderChecklistTab();
+      updateHeaderAndBadges();
+    }
+
+    /********************************************************************
+     * МОДАЛКИ: ПОДТВЕРЖДЕНИЕ ДЕЙСТВИЯ
+     ********************************************************************/
+    let pendingConfirmAction = null;
+
+    function openConfirmModal({ title, text, buttonText, onConfirm }) {
+      const backdrop = document.getElementById('confirmModalBackdrop');
+      const panel = document.getElementById('confirmModalPanel');
+      document.getElementById('confirmModalTitle').textContent = title;
+      document.getElementById('confirmModalText').textContent = text;
+      const btn = document.getElementById('confirmModalActionBtn');
+      btn.textContent = buttonText || 'Подтвердить';
+
+      pendingConfirmAction = onConfirm;
+      btn.onclick = () => {
+        if (typeof pendingConfirmAction === 'function') {
+          pendingConfirmAction();
+        }
+        closeConfirmModal();
+      };
+
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('scale-95');
+        panel.classList.add('scale-100');
+      });
+    }
+
+    function closeConfirmModal() {
+      const backdrop = document.getElementById('confirmModalBackdrop');
+      const panel = document.getElementById('confirmModalPanel');
+      if (!backdrop || !panel) return;
+      backdrop.classList.add('opacity-0');
+      panel.classList.remove('scale-100');
+      panel.classList.add('scale-95');
+      setTimeout(() => {
+        backdrop.classList.remove('flex');
+        backdrop.classList.add('hidden');
+      }, 180);
+    }
+
+    function confirmDeleteTrip(tripId) {
+      const trip = state.trips.find(t => t.id === tripId);
+      if (!trip) return;
+
+      openConfirmModal({
+        title: 'Удалить поездку?',
+        text: `Поездка «${trip.name}» и список вещей (${trip.items.length} шт.) будут удалены безвозвратно.`,
+        buttonText: 'Удалить',
+        onConfirm: () => {
+          state.trips = state.trips.filter(t => t.id !== tripId);
+          if (state.selectedTripId === tripId) {
+            state.selectedTripId = state.trips[0] ? state.trips[0].id : null;
+          }
+          saveState();
+          renderTripsTab();
+          renderChecklistTab();
+          updateHeaderAndBadges();
+          showToast(`Поездка «${trip.name}» удалена`);
+        }
+      });
+    }
+
+    function confirmResetChecks() {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      openConfirmModal({
+        title: 'Сбросить отметки?',
+        text: `Все вещи в поездке «${trip.name}» снова станут неотмеченными перед новым выездом.`,
+        buttonText: 'Сбросить',
+        onConfirm: () => {
+          trip.items.forEach(item => { item.packed = false; });
+          saveState();
+          renderChecklistTab();
+          showToast('Отметки сброшены');
+        }
+      });
+    }
+
+    function confirmResetChecksForTrip(tripId) {
+      const trip = state.trips.find(t => t.id === tripId);
+      if (!trip) return;
+
+      openConfirmModal({
+        title: 'Сбросить отметки?',
+        text: `Снять все галочки с поездки «${trip.name}»?`,
+        buttonText: 'Сбросить',
+        onConfirm: () => {
+          trip.items.forEach(item => { item.packed = false; });
+          saveState();
+          renderTripsTab();
+          updateHeaderAndBadges();
+          showToast('Отметки сброшены');
+        }
+      });
+    }
+
+    function openResetDemoModal() {
+      openConfirmModal({
+        title: 'Восстановить демо?',
+        text: 'Текущие списки заменятся 3 стартовыми примерами («Фото-трип», «Отпуск у моря», «Санкт-Петербург»).',
+        buttonText: 'Восстановить',
+        onConfirm: () => {
+          state.trips = getInitialSampleTrips();
+          state.selectedTripId = state.trips[0].id;
+          state.statusFilter = 'all';
+          state.categoryFilter = 'all';
+          saveState();
+          switchTab('checklist');
+          showToast('Демо-данные восстановлены');
+        }
+      });
+    }
+
+    /********************************************************************
+     * ИНСТРУМЕНТЫ: ЭКСПОРТ В TELEGRAM, БЭКАП JSON И ШАБЛОНЫ
+     ********************************************************************/
+    function copyTelegramFormattedList() {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      const { total, packed, percentage, totalPieces } = getTripProgress(trip);
+      const unpackedItems = trip.items.filter(i => !i.packed);
+      const packedItems = trip.items.filter(i => i.packed);
+
+      let text = `${trip.emoji || '🧳'} ${trip.name}\n`;
+      if (trip.dates) text += `📅 ${trip.dates}\n`;
+      text += `📊 Готовность: ${packed}/${total} пунктов (${percentage}%) • ${totalPieces} шт.\n\n`;
+
+      if (unpackedItems.length > 0) {
+        text += `⏳ ОСТАЛОСЬ СОБРАТЬ (${unpackedItems.length}):\n`;
+        unpackedItems.forEach(item => {
+          text += `▫️ ${item.title}${item.qty > 1 ? ` (${item.qty} шт.)` : ''}\n`;
+        });
+        text += `\n`;
+      }
+
+      if (packedItems.length > 0) {
+        text += `✅ УЖЕ В ЧЕМОДАНЕ (${packedItems.length}):\n`;
+        packedItems.forEach(item => {
+          text += `✔️ ${item.title}${item.qty > 1 ? ` (${item.qty} шт.)` : ''}\n`;
+        });
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Список скопирован! Можно вставить в Telegram');
+        }).catch(() => {
+          fallbackCopyText(text);
+        });
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Список скопирован в буфер обмена!');
+      } catch (err) {
+        showToast('Не удалось скопировать текст');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function addTemplateBatchToCurrentTrip(batchType) {
+      const trip = getCurrentTrip();
+      if (!trip) return;
+
+      const batches = {
+        beach: [
+          { title: 'Солнцезащитный крем SPF 50', category: 'Гигиена', qty: 1 },
+          { title: 'Купальник / плавки', category: 'Одежда', qty: 2 },
+          { title: 'Пляжные сланцы', category: 'Одежда', qty: 1 },
+          { title: 'Солнцезащитные очки', category: 'Разное', qty: 1 },
+          { title: 'Пляжное полотенце', category: 'Разное', qty: 1 },
+          { title: 'Водонепроницаемый чехол для телефона', category: 'Техника', qty: 1 }
+        ],
+        mountains: [
+          { title: 'Непромокаемая ветровка', category: 'Одежда', qty: 1 },
+          { title: 'Треккинговые носки', category: 'Одежда', qty: 2 },
+          { title: 'Термос для чая', category: 'Разное', qty: 1 },
+          { title: 'Налобный фонарик', category: 'Техника', qty: 1 },
+          { title: 'Эластичный бинт и пластырь', category: 'Аптечка', qty: 1 },
+          { title: 'Дождевик', category: 'Одежда', qty: 1 }
+        ],
+        work: [
+          { title: 'Ноутбук и зарядное устройство', category: 'Техника', qty: 1 },
+          { title: 'Мышь и коврик', category: 'Техника', qty: 1 },
+          { title: 'Наушники с микрофоном', category: 'Техника', qty: 1 },
+          { title: 'Деловая рубашка / костюм', category: 'Одежда', qty: 2 },
+          { title: 'Блокнот и ручка', category: 'Разное', qty: 1 }
+        ]
+      };
+
+      const itemsToAdd = batches[batchType] || [];
+      const now = Date.now();
+      let addedCount = 0;
+
+      itemsToAdd.forEach((item, idx) => {
+        // Проверяем, чтобы не дублировать точь-в-точь
+        if (!trip.items.some(i => i.title.toLowerCase() === item.title.toLowerCase())) {
+          trip.items.push({
+            id: `item-${now}-${idx}`,
+            title: item.title,
+            category: item.category,
+            qty: item.qty,
+            packed: false
+          });
+          addedCount++;
+        }
+      });
+
+      saveState();
+      updateHeaderAndBadges();
+      showToast(`Добавлено ${addedCount} ${pluralizeRu(addedCount, 'вещь', 'вещи', 'вещей')} в поездку`);
+    }
+
+    function exportBackupJson() {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state.trips, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', `packing_trips_backup_${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('Файл бэкапа сохранён');
+    }
+
+    function importBackupJson(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            state.trips = parsed;
+            state.selectedTripId = state.trips[0].id;
+            saveState();
+            switchTab('checklist');
+            showToast('Поездки успешно восстановлены!');
+          } else {
+            showToast('Неверный формат файла');
+          }
+        } catch (err) {
+          showToast('Ошибка чтения файла бэкапа');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /********************************************************************
+     * УВЕДОМЛЕНИЯ (TOAST)
+     ********************************************************************/
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = 'px-4 py-2 rounded-2xl bg-slate-800 text-white text-xs font-semibold shadow-lg flex items-center gap-2 animate-fade-slide';
+      toast.innerHTML = `
+        <i class="ph-fill ph-check-circle text-emerald-400 text-sm"></i>
+        <span>${escapeHtml(message)}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => toast.remove(), 250);
+      }, 2300);
+    }
+
+    /********************************************************************
+     * СОБЫТИЯ И ИНИЦИАЛИЗАЦИЯ
+     ********************************************************************/
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeTripModal();
+        closeConfirmModal();
+        closeEditItemModal();
+        closeTripPickerSheet();
+      }
+    });
+
+    ['tripModalBackdrop', 'confirmModalBackdrop', 'editItemModalBackdrop', 'tripPickerBackdrop'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('click', (e) => {
+          if (e.target.id === id) {
+            closeTripModal();
+            closeConfirmModal();
+            closeEditItemModal();
+            closeTripPickerSheet();
+          }
+        });
+      }
+    });
+
+    // Адаптация под виртуальную клавиатуру на мобильных
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', () => {
+        const bottomDock = document.getElementById('bottomNavDock');
+        const isKeyboardOpen = window.innerHeight - window.visualViewport.height > 150;
+        if (isKeyboardOpen) {
+          if (bottomDock) bottomDock.classList.add('hidden');
+        } else {
+          if (document.activeElement?.id !== 'quickAddInput' && bottomDock) {
+            bottomDock.classList.remove('hidden');
+          }
+        }
+      });
+    }
+
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      console.log('beforeinstallprompt fired');
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          console.log('ServiceWorker registered:', reg.scope);
+        }).catch((err) => {
+          console.warn('ServiceWorker registration error:', err);
+        });
+      });
+    }
+
+    window.onload = function () {
+      loadState();
+      switchTab('checklist');
+    };
+  </script>
+</body>
+</html>

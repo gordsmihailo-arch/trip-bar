@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EEF6F2" />
+      <stop offset="100%" stop-color="#E2ECE7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#41695A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+  
+  <!-- Заливка фона для адаптивных масок (Android adaptive icon) -->
+  <rect width="512" height="512" fill="url(#bgGrad)" />
+
+  <!-- Чемодан - строго по центру: X=256, Y=256 -->
+  <g filter="url(#shadow)">
+    <!-- Колесики -->
+    <ellipse cx="186" cy="378" rx="18" ry="14" fill="#41695A" />
+    <ellipse cx="326" cy="378" rx="18" ry="14" fill="#41695A" />
+
+    <!-- Ручка чемодана -->
+    <path d="M 198 175 L 198 140 C 198 122, 214 112, 232 112 L 280 112 C 298 112, 314 122, 314 140 L 314 175" 
+          fill="none" stroke="#41695A" stroke-width="20" stroke-linecap="round" />
+
+    <!-- Корпус чемодана -->
+    <rect x="126" y="166" width="260" height="196" rx="36" fill="#FFFFFF" stroke="#73A08E" stroke-width="18" />
+
+    <!-- Вертикальные полосы -->
+    <line x1="208" y1="192" x2="208" y2="336" stroke="#E1EEE8" stroke-width="12" stroke-linecap="round" />
+    <line x1="256" y1="192" x2="256" y2="336" stroke="#E1EEE8" stroke-width="12" stroke-linecap="round" />
+    <line x1="304" y1="192" x2="304" y2="336" stroke="#E1EEE8" stroke-width="12" stroke-linecap="round" />
+
+    <!-- Замок/бирка -->
+    <rect x="237" y="158" width="38" height="20" rx="6" fill="#41695A" />
+
+    <!-- Бейдж готовности с галочкой -->
+    <g>
+      <circle cx="344" cy="314" r="43" fill="#FFFFFF" />
+      <circle cx="344" cy="314" r="38" fill="#73A08E" />
+      <path d="M 329 314 L 339 324 L 360 303" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
+</svg>
