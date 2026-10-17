@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trip-bar-cache-v1';
+const CACHE_NAME = 'trip-bar-cache-v2';
 const ASSETS = [
   './index.html',
   './manifest.json',
